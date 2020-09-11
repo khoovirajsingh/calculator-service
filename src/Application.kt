@@ -18,7 +18,10 @@ fun Application.module(testing: Boolean = false) {
         }
 
         get("/add") {
-            call.respondText("2", contentType = ContentType.Text.Plain)
+            val number1 = call.parameters["number1"]?.toInt() ?: 0
+            val number2 = call.parameters["number2"]?.toInt() ?: 0
+            val sum = number1 + number2
+            call.respondText("$sum", contentType = ContentType.Text.Plain)
         }
 
         install(StatusPages) {
