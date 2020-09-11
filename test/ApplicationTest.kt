@@ -19,4 +19,14 @@ class ApplicationTest {
             }
         }
     }
+
+    @Test
+    fun addition() {
+        withTestApplication({ module(testing = true) }) {
+            handleRequest(HttpMethod.Get, "/add?number1=1&number2=1").apply {
+                assertEquals(HttpStatusCode.OK, response.status())
+                assertEquals("2", response.content)
+            }
+        }
+    }
 }
