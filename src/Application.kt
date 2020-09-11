@@ -6,6 +6,7 @@ import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
 import io.ktor.features.*
+import java.lang.NumberFormatException
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -22,9 +23,13 @@ fun Application.module(testing: Boolean = false) {
             val number2 = call.parameters["number2"]?.toInt() ?: 0
             val sum = number1 + number2
             call.respondText("$sum", contentType = ContentType.Text.Plain)
+
         }
 
         install(StatusPages) {
+            exception<NumberFormatException> {
+                call.respond(HttpStatusCode.BadRequest)
+            }
             exception<AuthenticationException> { cause ->
                 call.respond(HttpStatusCode.Unauthorized)
             }

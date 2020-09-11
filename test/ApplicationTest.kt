@@ -32,6 +32,10 @@ class ApplicationTest {
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals("3", response.content)
             }
+
+            handleRequest(HttpMethod.Get, "/add?number1=1&number2=askjdf").apply {
+                assertEquals(HttpStatusCode.BadRequest, response.status())
+            }
         }
     }
 }
